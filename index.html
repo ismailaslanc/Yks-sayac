@@ -5,221 +5,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YKS 2026 Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-color: #121212;
+            --bg-color: #0f0f13;
             --text-color: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.05);
-            --accent-color: #00d2ff;
-            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --accent-color: #00f2fe;
+            --secondary-color: #4facfe;
         }
-
-        /* Aydınlık Tema Değişkenleri */
         .light-mode {
-            --bg-color: #f0f2f5;
-            --text-color: #333333;
+            --bg-color: #f4f6f8;
+            --text-color: #2c3e50;
             --card-bg: #ffffff;
-            --accent-color: #2563eb;
-            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --accent-color: #0984e3;
+            --secondary-color: #74b9ff;
         }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: background-color 0.5s, color 0.5s;
             min-height: 100vh;
+            transition: 0.5s;
         }
-
-        /* Üst Bar ve Tema Butonu */
-        .header {
+        
+        /* Üst Menü */
+        .top-bar {
             width: 100%;
             display: flex;
-            justify-content: flex-end;
-            padding-bottom: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .theme-btn {
+            background: none; border: none; color: var(--text-color); font-size: 1.2rem; cursor: pointer;
         }
 
-        .theme-btn {
+        /* Bölüm Seçici (Toggle) */
+        .branch-selector {
+            display: flex;
             background: var(--card-bg);
-            border: 1px solid var(--accent-color);
+            border-radius: 30px;
+            padding: 5px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .branch-btn {
+            padding: 8px 20px;
+            border-radius: 25px;
+            border: none;
+            background: transparent;
             color: var(--text-color);
-            padding: 10px 20px;
-            border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+        .branch-btn.active {
+            background: var(--accent-color);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-color);
         }
 
-        /* Sayaç Alanı */
-        .counter-container {
-            text-align: center;
-            margin-bottom: 40px;
-            margin-top: 20px;
-        }
+        /* Sayaç */
+        .counter-box { text-align: center; margin-bottom: 40px; }
+        .days { font-size: 5rem; font-weight: 900; color: var(--accent-color); line-height: 1; }
+        .label { letter-spacing: 5px; opacity: 0.6; }
 
-        .days-left {
-            font-size: 5rem;
-            font-weight: 800;
-            color: var(--accent-color);
-            line-height: 1;
-            text-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
-        }
-
-        .sub-text {
-            font-size: 1.2rem;
-            letter-spacing: 3px;
-            opacity: 0.8;
-            margin-top: 10px;
-        }
-
-        /* Kartlar Bölümü (Günün Sözü & Sorusu) */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            width: 100%;
-            max-width: 600px;
-        }
-
+        /* Kartlar */
+        .grid { display: grid; gap: 20px; width: 100%; max-width: 600px; }
         .card {
             background: var(--card-bg);
             padding: 25px;
-            border-radius: 15px;
-            box-shadow: var(--shadow);
-            border-left: 5px solid var(--accent-color);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
             backdrop-filter: blur(10px);
-            transition: transform 0.2s;
         }
-
-        .card:hover { transform: translateY(-5px); }
-
-        .card h3 {
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--accent-color);
-        }
-
-        .card p { line-height: 1.6; font-size: 1rem; }
-        .answer-btn {
-            margin-top: 10px;
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        .blur { filter: blur(6px); cursor: pointer; transition: 0.3s; }
+        .blur:hover, .revealed { filter: blur(0); }
         
-        .hidden-answer { display: none; margin-top: 10px; font-weight: bold; color: #2ecc71; }
-
-        @media (min-width: 768px) {
-            .cards-grid { grid-template-columns: 1fr 1fr; }
+        .badge {
+            display: inline-block; padding: 4px 12px; border-radius: 6px; 
+            font-size: 0.75rem; font-weight: bold; color: #000; margin-bottom: 10px;
+            background: var(--secondary-color);
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <button class="theme-btn" onclick="toggleTheme()">
-            <i class="fas fa-adjust"></i> Tema Değiştir
-        </button>
+    <div class="top-bar">
+        <div class="branch-selector">
+            <button class="branch-btn active" id="btn-say" onclick="setBranch('sayisal')">SAYISAL</button>
+            <button class="branch-btn" id="btn-ea" onclick="setBranch('esit_agirlik')">EŞİT AĞIRLIK</button>
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()"><i class="fas fa-adjust"></i></button>
     </div>
 
-    <div class="counter-container">
-        <div style="font-size: 1.5rem; opacity: 0.7;">YKS 2026</div>
-        <div class="days-left" id="x-gun">--</div>
-        <div class="sub-text">GÜN KALDI</div>
-        <div id="mini-timer" style="margin-top: 15px; font-family: monospace; opacity: 0.5;">00:00:00</div>
+    <div class="counter-box">
+        <div class="label">YKS 2026</div>
+        <div class="days" id="gun">--</div>
+        <div class="label">GÜN KALDI</div>
+        <div id="mini-timer" style="margin-top:10px; font-family:monospace; opacity:0.5"></div>
     </div>
 
-    <div class="cards-grid">
+    <div class="grid">
         <div class="card">
-            <h3><i class="fas fa-quote-left"></i> Günün Sözü</h3>
-            <p id="quote-text">Yükleniyor...</p>
+            <div style="opacity:0.5; font-size:0.9rem; margin-bottom:10px;"><i class="fas fa-quote-left"></i> GÜNÜN MOTİVASYONU</div>
+            <div id="quote-text" style="font-size:1.1rem; font-style:italic; line-height:1.5;">Yükleniyor...</div>
+            <div id="quote-author" style="text-align:right; margin-top:10px; color:var(--accent-color); font-weight:bold;"></div>
         </div>
 
         <div class="card">
-            <h3><i class="fas fa-brain"></i> Günün Sorusu</h3>
-            <p id="question-text">Soru yükleniyor...</p>
-            <button class="answer-btn" onclick="showAnswer()">Cevabı Gör</button>
-            <div id="answer-text" class="hidden-answer">Cevap yükleniyor...</div>
+            <div style="opacity:0.5; font-size:0.9rem; margin-bottom:10px;"><i class="fas fa-brain"></i> GÜNÜN SORUSU</div>
+            <span id="q-subject" class="badge">Ders</span>
+            <div id="q-text" style="font-weight:600; margin-bottom:15px; font-size:1.1rem;">Soru Yükleniyor...</div>
+            <div style="font-size:0.8rem; opacity:0.7; margin-bottom:5px;">Cevap (Dokun):</div>
+            <div id="q-answer" class="blur" onclick="this.classList.add('revealed')">Gizli Cevap</div>
         </div>
-    </div>
-
-    <div style="margin-top: 40px; text-align: center; opacity: 0.5; font-size: 0.8rem;">
-        <p>Gaziantep'ten Sevgilerle - YKS 2026 Hedef</p>
     </div>
 
     <script>
-        // 1. SAYAÇ KODU
+        // --- 1. SAYAÇ ---
         const examDate = new Date("June 20, 2026 10:15:00").getTime();
-        function updateTimer() {
+        setInterval(() => {
             const now = new Date().getTime();
-            const distance = examDate - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById("x-gun").innerText = days;
-            document.getElementById("mini-timer").innerText = 
-                (hours < 10 ? "0"+hours : hours) + ":" + (minutes < 10 ? "0"+minutes : minutes) + ":" + (seconds < 10 ? "0"+seconds : seconds);
-        }
-        setInterval(updateTimer, 1000);
-        updateTimer();
+            const diff = examDate - now;
+            document.getElementById("gun").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById("mini-timer").innerText = `${h}:${m}:${s}`;
+        }, 1000);
 
-        // 2. TEMA DEĞİŞTİRME KODU
-        function toggleTheme() {
-            document.body.classList.toggle("light-mode");
-            // Seçimi hafızaya kaydet
-            if(document.body.classList.contains("light-mode")) {
-                localStorage.setItem("theme", "light");
-            } else {
-                localStorage.setItem("theme", "dark");
+        // --- 2. VERİ ÇEKME & BÖLÜM MANTIĞI ---
+        let currentBranch = localStorage.getItem('branch') || 'sayisal';
+        
+        // Sayfa açılınca butonu ayarla
+        updateBranchButtons();
+        fetchData();
+
+        function setBranch(branch) {
+            currentBranch = branch;
+            localStorage.setItem('branch', branch);
+            updateBranchButtons();
+            fetchData(); // Veriyi yenile
+        }
+
+        function updateBranchButtons() {
+            document.getElementById('btn-say').classList.remove('active');
+            document.getElementById('btn-ea').classList.remove('active');
+            if(currentBranch === 'sayisal') document.getElementById('btn-say').classList.add('active');
+            else document.getElementById('btn-ea').classList.add('active');
+        }
+
+        async function fetchData() {
+            try {
+                const response = await fetch('veri.json');
+                const data = await response.json();
+                
+                // Seçilen bölüme göre veriyi al (data.sayisal veya data.esit_agirlik)
+                const branchData = data[currentBranch];
+
+                // GÜN HESABI (Yılın başından itibaren kaçıncı gün)
+                const now = new Date();
+                const start = new Date(now.getFullYear(), 0, 0);
+                const diff = now - start;
+                const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+                // Modulo ile döngü (Liste bitse bile başa döner)
+                const soz = branchData.sozler[dayOfYear % branchData.sozler.length];
+                const soru = branchData.sorular[dayOfYear % branchData.sorular.length];
+
+                // Ekrana Bas
+                document.getElementById("quote-text").innerText = `"${soz.text}"`;
+                document.getElementById("quote-author").innerText = `- ${soz.author}`;
+                
+                document.getElementById("q-subject").innerText = soru.subject;
+                document.getElementById("q-text").innerText = soru.q;
+                document.getElementById("q-answer").innerText = soru.a;
+                document.getElementById("q-answer").classList.remove("revealed"); // Yeni soruda cevabı gizle
+
+                // Ders Rengi Ayarı
+                const colors = { 
+                    "Fizik": "#ff7675", "Kimya": "#ffeaa7", "Biyoloji": "#55efc4", "Matematik": "#74b9ff",
+                    "Edebiyat": "#a29bfe", "Tarih": "#fab1a0", "Coğrafya": "#81ecec"
+                };
+                document.getElementById("q-subject").style.backgroundColor = colors[soru.subject] || "#ddd";
+
+            } catch (error) {
+                console.log(error);
             }
         }
-        // Sayfa açılınca kayıtlı temayı hatırla
-        if(localStorage.getItem("theme") === "light") {
-            document.body.classList.add("light-mode");
+
+        // --- 3. TEMA ---
+        function toggleTheme() {
+            document.body.classList.toggle("light-mode");
+            localStorage.setItem("theme", document.body.classList.contains("light-mode") ? "light" : "dark");
         }
+        if(localStorage.getItem("theme") === "light") document.body.classList.add("light-mode");
 
-        // 3. GÜNÜN SÖZÜ VE SORUSU (Otomatik Değişir)
-        const quotes = [
-            "Başarı, her gün tekrarlanan küçük çabaların toplamıdır.",
-            "Zamanı durduramazsın ama onu yönetebilirsin.",
-            "Bugün çalıştığın ders, yarınki hayalinin temeli.",
-            "İntegral zor değil, sadece biraz daha ilgi ister!",
-            "Şampiyonlar salonlarda değil, çalışma masalarında doğar."
-        ];
-
-        const questions = [
-            { q: "Fizik: İvme-zaman grafiğinin altındaki alan neyi verir?", a: "Hız Değişimini (ΔV)" },
-            { q: "Kimya: Modern atom teorisine göre elektronların bulunma ihtimalinin yüksek olduğu bölgelere ne denir?", a: "Orbital" },
-            { q: "Matematik: Bir fonksiyonun türevi o noktadaki neyi ifade eder?", a: "Teğetin Eğimini" },
-            { q: "Biyoloji: DNA'nın kendini eşlemesine ne ad verilir?", a: "Replikasyon" }
-        ];
-
-        // Rastgele seç (Sayfa her yenilendiğinde değişir)
-        // İstersen bunu 'Güne Özel' hale de getirebiliriz.
-        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
-
-        document.getElementById("quote-text").innerText = randomQuote;
-        document.getElementById("question-text").innerText = randomQuestion.q;
-        document.getElementById("answer-text").innerText = randomQuestion.a;
-
-        function showAnswer() {
-            document.getElementById("answer-text").style.display = "block";
-        }
     </script>
 </body>
 </html>
