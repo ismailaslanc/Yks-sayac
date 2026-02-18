@@ -1,22 +1,23 @@
 {
-  "name": "YKS 2026 Sayacı",
-  "short_name": "YKS 2026",
-  "start_url": "/index.html",
+  "name": "YKS 2026 Geri Sayım Sayacı",
+  "short_name": "YKS Sayaç",
+  "description": "YKS sınavına ne kadar kaldığını anlık olarak takip et.",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#1e1e24",
-  "theme_color": "#1e1e24",
-  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#e74c3c",
+  "scope": "./",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "icon.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ]
 }
-
