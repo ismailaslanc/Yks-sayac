@@ -6,9 +6,24 @@
     <title>YKS 2026 Sayaç</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="manifest" href="manifest.json">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="YKS 2026">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<meta name="theme-color" content="#1e1e24">
+    
 </head>
 <body>
-
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("Uygulama Hazır!"))
+        .catch((error) => console.log("Hata:", error));
+    }
+</script>
     <button id="theme-toggle" class="theme-btn">
         <i class="fas fa-sun"></i>
     </button>
