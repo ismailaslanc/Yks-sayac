@@ -17,13 +17,21 @@
     
 </head>
 <body>
+
 <script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
-        .then(() => console.log("Uygulama Hazır!"))
-        .catch((error) => console.log("Hata:", error));
-    }
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(registration => {
+          console.log('YKS Sayaç PWA Hazır. Kapsam:', registration.scope);
+        })
+        .catch(err => {
+          console.log('Service Worker Hatası:', err);
+        });
+    });
+  }
 </script>
+    
     <button id="theme-toggle" class="theme-btn">
         <i class="fas fa-sun"></i>
     </button>
