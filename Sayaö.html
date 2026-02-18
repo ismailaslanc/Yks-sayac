@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YKS 2026</title>
+    <style>
+        /* CSS Başlangıcı */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at center, #1e1e2f 0%, #0f0f13 100%);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .main-title { 
+            font-size: 1.8rem; 
+            font-weight: 300; 
+            letter-spacing: 4px;
+            color: rgba(255, 255, 255, 0.7); 
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .counter-container {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 40px 60px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .days-left { 
+            font-size: 8rem; 
+            font-weight: 900; 
+            background: linear-gradient(to bottom, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
+            line-height: 0.9;
+        }
+
+        .sub-text { 
+            font-size: 1.2rem; 
+            letter-spacing: 8px; 
+            margin-top: 20px; 
+            color: #555;
+            font-weight: bold;
+        }
+
+        .countdown-mini { 
+            margin-top: 40px; 
+            font-size: 1.5rem; 
+            font-family: 'Courier New', monospace; 
+            color: #00d2ff;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+        }
+        /* CSS Sonu */
+    </style>
+</head>
+<body>
+
+    <div class="counter-container">
+        <div class="main-title">YKS 2026</div>
+        <div class="days-left" id="x-gun">--</div>
+        <div class="sub-text">GÜN KALDI</div>
+        <div class="countdown-mini" id="mini-timer">00:00:00</div>
+    </div>
+
+    <script>
+        const examDate = new Date("June 20, 2026 10:15:00").getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = examDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("x-gun").innerText = days;
+            document.getElementById("mini-timer").innerText = 
+                (hours < 10 ? "0" + hours : hours) + ":" + 
+                (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                (seconds < 10 ? "0" + seconds : seconds);
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+    </script>
+</body>
+</html>
