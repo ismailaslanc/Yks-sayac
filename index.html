@@ -3,99 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YKS 2026</title>
+    <title>YKS 2026 Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* CSS Başlangıcı */
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent-color: #00d2ff;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Aydınlık Tema Değişkenleri */
+        .light-mode {
+            --bg-color: #f0f2f5;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --accent-color: #2563eb;
+            --shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at center, #1e1e2f 0%, #0f0f13 100%);
-            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            transition: background-color 0.5s, color 0.5s;
+            min-height: 100vh;
         }
 
-        .main-title { 
-            font-size: 1.8rem; 
-            font-weight: 300; 
-            letter-spacing: 4px;
-            color: rgba(255, 255, 255, 0.7); 
-            margin-bottom: 10px;
-            text-transform: uppercase;
+        /* Üst Bar ve Tema Butonu */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding-bottom: 20px;
         }
 
-        .counter-container {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 40px 60px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            text-align: center;
-        }
-
-        .days-left { 
-            font-size: 8rem; 
-            font-weight: 900; 
-            background: linear-gradient(to bottom, #00d2ff, #3a7bd5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-            line-height: 0.9;
-        }
-
-        .sub-text { 
-            font-size: 1.2rem; 
-            letter-spacing: 8px; 
-            margin-top: 20px; 
-            color: #555;
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
         }
 
-        .countdown-mini { 
-            margin-top: 40px; 
-            font-size: 1.5rem; 
-            font-family: 'Courier New', monospace; 
-            color: #00d2ff;
-            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+        /* Sayaç Alanı */
+        .counter-container {
+            text-align: center;
+            margin-bottom: 40px;
+            margin-top: 20px;
         }
-        /* CSS Sonu */
+
+        .days-left {
+            font-size: 5rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+
+        .sub-text {
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        /* Kartlar Bölümü (Günün Sözü & Sorusu) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--accent-color);
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        .card h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-color);
+        }
+
+        .card p { line-height: 1.6; font-size: 1rem; }
+        .answer-btn {
+            margin-top: 10px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .hidden-answer { display: none; margin-top: 10px; font-weight: bold; color: #2ecc71; }
+
+        @media (min-width: 768px) {
+            .cards-grid { grid-template-columns: 1fr 1fr; }
+        }
     </style>
 </head>
 <body>
 
+    <div class="header">
+        <button class="theme-btn" onclick="toggleTheme()">
+            <i class="fas fa-adjust"></i> Tema Değiştir
+        </button>
+    </div>
+
     <div class="counter-container">
-        <div class="main-title">YKS 2026</div>
+        <div style="font-size: 1.5rem; opacity: 0.7;">YKS 2026</div>
         <div class="days-left" id="x-gun">--</div>
         <div class="sub-text">GÜN KALDI</div>
-        <div class="countdown-mini" id="mini-timer">00:00:00</div>
+        <div id="mini-timer" style="margin-top: 15px; font-family: monospace; opacity: 0.5;">00:00:00</div>
+    </div>
+
+    <div class="cards-grid">
+        <div class="card">
+            <h3><i class="fas fa-quote-left"></i> Günün Sözü</h3>
+            <p id="quote-text">Yükleniyor...</p>
+        </div>
+
+        <div class="card">
+            <h3><i class="fas fa-brain"></i> Günün Sorusu</h3>
+            <p id="question-text">Soru yükleniyor...</p>
+            <button class="answer-btn" onclick="showAnswer()">Cevabı Gör</button>
+            <div id="answer-text" class="hidden-answer">Cevap yükleniyor...</div>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px; text-align: center; opacity: 0.5; font-size: 0.8rem;">
+        <p>Gaziantep'ten Sevgilerle - YKS 2026 Hedef</p>
     </div>
 
     <script>
+        // 1. SAYAÇ KODU
         const examDate = new Date("June 20, 2026 10:15:00").getTime();
-
         function updateTimer() {
             const now = new Date().getTime();
             const distance = examDate - now;
-
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
             document.getElementById("x-gun").innerText = days;
             document.getElementById("mini-timer").innerText = 
-                (hours < 10 ? "0" + hours : hours) + ":" + 
-                (minutes < 10 ? "0" + minutes : minutes) + ":" + 
-                (seconds < 10 ? "0" + seconds : seconds);
+                (hours < 10 ? "0"+hours : hours) + ":" + (minutes < 10 ? "0"+minutes : minutes) + ":" + (seconds < 10 ? "0"+seconds : seconds);
         }
-
         setInterval(updateTimer, 1000);
         updateTimer();
+
+        // 2. TEMA DEĞİŞTİRME KODU
+        function toggleTheme() {
+            document.body.classList.toggle("light-mode");
+            // Seçimi hafızaya kaydet
+            if(document.body.classList.contains("light-mode")) {
+                localStorage.setItem("theme", "light");
+            } else {
+                localStorage.setItem("theme", "dark");
+            }
+        }
+        // Sayfa açılınca kayıtlı temayı hatırla
+        if(localStorage.getItem("theme") === "light") {
+            document.body.classList.add("light-mode");
+        }
+
+        // 3. GÜNÜN SÖZÜ VE SORUSU (Otomatik Değişir)
+        const quotes = [
+            "Başarı, her gün tekrarlanan küçük çabaların toplamıdır.",
+            "Zamanı durduramazsın ama onu yönetebilirsin.",
+            "Bugün çalıştığın ders, yarınki hayalinin temeli.",
+            "İntegral zor değil, sadece biraz daha ilgi ister!",
+            "Şampiyonlar salonlarda değil, çalışma masalarında doğar."
+        ];
+
+        const questions = [
+            { q: "Fizik: İvme-zaman grafiğinin altındaki alan neyi verir?", a: "Hız Değişimini (ΔV)" },
+            { q: "Kimya: Modern atom teorisine göre elektronların bulunma ihtimalinin yüksek olduğu bölgelere ne denir?", a: "Orbital" },
+            { q: "Matematik: Bir fonksiyonun türevi o noktadaki neyi ifade eder?", a: "Teğetin Eğimini" },
+            { q: "Biyoloji: DNA'nın kendini eşlemesine ne ad verilir?", a: "Replikasyon" }
+        ];
+
+        // Rastgele seç (Sayfa her yenilendiğinde değişir)
+        // İstersen bunu 'Güne Özel' hale de getirebiliriz.
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+
+        document.getElementById("quote-text").innerText = randomQuote;
+        document.getElementById("question-text").innerText = randomQuestion.q;
+        document.getElementById("answer-text").innerText = randomQuestion.a;
+
+        function showAnswer() {
+            document.getElementById("answer-text").style.display = "block";
+        }
     </script>
 </body>
 </html>
