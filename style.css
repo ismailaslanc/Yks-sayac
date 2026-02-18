@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #1e1e24; /* Koyu arka plan */
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    font-weight: 300;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+}
+
+.countdown {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.time-box {
+    margin: 10px 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05); /* Yarı saydam kutular */
+    padding: 20px;
+    border-radius: 10px;
+    min-width: 100px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.time-box span {
+    font-size: 3rem;
+    font-weight: 600;
+    display: block;
+    color: #4facfe; /* Mavi tonlu rakamlar */
+}
+
+.time-box small {
+    font-size: 1rem;
+    color: #aaaaaa;
+    text-transform: uppercase;
+}
+
+/* Mobil Uyumluluk */
+@media (max-width: 500px) {
+    .time-box {
+        margin: 10px;
+        min-width: 70px;
+    }
+
+    .time-box span {
+        font-size: 2rem;
+    }
+}
